@@ -81,9 +81,9 @@ public class Node<T> {
 	 * 
 	 * @param b
 	 */
-	public void setWasAdded(boolean b)
+	public void setWasAdded()
 	{
-		this.wasAdded = b;
+		this.wasAdded = true;
 	}
 	
 	/**

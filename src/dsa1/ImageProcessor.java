@@ -20,6 +20,7 @@ import javax.imageio.ImageIO;
 public class ImageProcessor {
 	
 	//a data set of all the nodes/pixels
+	private UnionFind uf = new UnionFind();
 	private ArrayList<Node<Point>> container = new ArrayList<>();
 	
 	/**
@@ -69,8 +70,8 @@ public class ImageProcessor {
 	public BufferedImage resize(String path) throws IOException
 	{
 		BufferedImage img = ImageIO.read(new File (path));
-		int height = img.getHeight() / 5;
-		int width = img.getWidth() / 5;
+		int height = img.getHeight() / 6;
+		int width = img.getWidth() / 6;
 		
 		Image temp = img.getScaledInstance(width, height, Image.SCALE_DEFAULT);
 		BufferedImage resizedImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -91,7 +92,7 @@ public class ImageProcessor {
 	 * @param Buffered Image
 	 * @return Black and white version of the image input
 	 */
-	public Image blackAndWhite(BufferedImage img)
+	public BufferedImage blackAndWhite(BufferedImage img)
 	{
 		for(int i = 0; i < img.getWidth()-1; i++)
 			for(int j=0; j < img.getHeight()-1; j++)
@@ -116,6 +117,55 @@ public class ImageProcessor {
 			}
 		
 		return img;
+	}
+	
+	/**
+	 * Goes through each pixel of the image provided 
+	 * Checks the current pixel (if white) and it's white adjacent pixels.
+	 * If adjacent is white - union current and adjacent
+	 * @param img
+	 */
+	public void adjacentJoin(BufferedImage img)
+	{
+		for(int i = 0; i < img.getWidth()-1; i++)
+			for(int j=0; j < img.getHeight()-1; j++)
+			{
+				Node<Point> current = findNode(i,j);
+				Node<Point> right = findNode(i+1, j);
+				Node<Point> left = findNode(i+1, j);
+				Node<Point> up = findNode(i, j+1);
+				Node<Point> down = findNode(i, j-1);
+				
+				if(current.getIsWhite()==true)
+				{
+					if(left != null && left.getIsWhite()==true)
+					{
+						uf.unionSize(current, left);
+						left.setWasAdded();
+					}
+					if(right != null && right.getIsWhite()==true)
+					{
+						uf.unionSize(current, right);
+						right.setWasAdded();
+					}
+					if(down != null && down.getIsWhite()==true)
+					{
+						uf.unionSize(current, down);
+						down.setWasAdded();
+					}
+					if(up != null && up.getIsWhite()==true)
+					{
+						uf.unionSize(current, up);
+						up.setWasAdded();
+					}
+				}
+				
+			}
+	}
+	
+	public ArrayList<Node<Point>> getArrayList()
+	{
+		return container;
 	}
 
 }

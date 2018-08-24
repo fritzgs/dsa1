@@ -3,10 +3,12 @@ package dsa1;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -43,6 +45,29 @@ class ImageProcessTest {
 		Color origin = new Color(imgresize.getRGB(0, 0));
 		if(origin.getBlue()==0 && origin.getGreen()==0 && origin.getRed() ==0)
 			assertEquals(false, imgpro.findNode(0, 0).getIsWhite());
+		
+	}
+	
+	@Test
+	void testAdjacentJoin() throws IOException
+	{
+		BufferedImage imgresize = imgpro.resize(path);
+		BufferedImage bnw = imgpro.blackAndWhite(imgresize);
+		imgpro.adjacentJoin(bnw);
+		ArrayList<Node<Point>> whiteSets = new ArrayList<>();
+		for(Node<Point> n : imgpro.getArrayList())
+		{
+			if(n.getParent().equals(n) && n.getIsWhite()==true)
+			{
+				whiteSets.add(n);
+			}
+		}
+		
+		for(Node<Point> nwhite : whiteSets)
+		{
+			if(nwhite.getSize() < 100)
+				System.out.println(nwhite.getSize());
+		}
 		
 	}
 	
