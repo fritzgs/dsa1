@@ -11,10 +11,22 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+/**
+ * 
+ * @author fritz
+ *
+ * This class handles all the processing done to images.
+ */
 public class ImageProcessor {
 	
+	//a data set of all the nodes/pixels
 	private ArrayList<Node<Point>> container = new ArrayList<>();
 	
+	/**
+	 * Creates a new node of pixel and adds it to the arraylist.
+	 * @param x
+	 * @param y
+	 */
 	public void makeNode(int x, int y)
 	{
 		Point p = new Point(x, y);
@@ -22,6 +34,12 @@ public class ImageProcessor {
 		container.add(n);
 	}
 	
+	/**
+	 * Finds the node by using pixel co-ordination
+	 * @param int x co-ordinate
+	 * @param int y co-ordinate
+	 * @return Node with Point(x,y).
+	 */
 	public Node<Point> findNode(int x, int y)
 	{
 		Node<Point> res = null; 
@@ -39,9 +57,18 @@ public class ImageProcessor {
 	//make the image smaller
 	//1) get size of image and * ? to make smaller dimentions
 	//2 resize it 
-	public BufferedImage resize(String file) throws IOException
+	/**
+	 * Takes the file path and created a BufferedImage object.
+	 * New smaller height and width is specified using the original height and width.
+	 * A new buffered image object is created with new dimensions.
+	 * 
+	 * @param  String
+	 * @return BufferedImage - resized version of the image input
+	 * @throws IOException
+	 */
+	public BufferedImage resize(String path) throws IOException
 	{
-		BufferedImage img = ImageIO.read(new File (file));
+		BufferedImage img = ImageIO.read(new File (path));
 		int height = img.getHeight() / 5;
 		int width = img.getWidth() / 5;
 		
@@ -56,7 +83,14 @@ public class ImageProcessor {
 		return resizedImg;
 	}
 	
-	//convert pixels to black and white
+	/**
+	 * Takes in a buffered image object and goes through each pixel.
+	 * Each pixel point is made into a Node and the colour is converted into black or white - depending on the shade of the original color.
+	 * If the shade is towards the white colour, the isWhite variable of the node is changed to true.
+	 * 
+	 * @param Buffered Image
+	 * @return Black and white version of the image input
+	 */
 	public Image blackAndWhite(BufferedImage img)
 	{
 		for(int i = 0; i < img.getWidth()-1; i++)
