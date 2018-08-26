@@ -22,6 +22,8 @@ public class ImageProcessor {
 	//a data set of all the nodes/pixels
 	private UnionFind uf = new UnionFind();
 	private ArrayList<Node<Point>> container = new ArrayList<>();
+	private ArrayList<Node<Point>> whiteSets = new ArrayList<>();
+
 	
 	/**
 	 * Creates a new node of pixel and adds it to the arraylist.
@@ -71,7 +73,7 @@ public class ImageProcessor {
 	{
 		BufferedImage img = ImageIO.read(new File (path));
 		int height = img.getHeight() / 6;
-		int width = img.getWidth() / 6;
+		int width = img.getWidth() / 6 ;
 		
 		Image temp = img.getScaledInstance(width, height, Image.SCALE_DEFAULT);
 		BufferedImage resizedImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -161,11 +163,46 @@ public class ImageProcessor {
 				}
 				
 			}
+		
+		//Remove outliers 
+		int sum = 0;
+		for(Node<Point> n : container)
+		{
+			if(n.getParent().equals(n) && n.getIsWhite()==true)
+			{
+				whiteSets.add(n);
+//				System.out.println(n.getSize());
+			}
+		}
+		
+
+				
+		for(Node<Point> nwhite : whiteSets)
+		{
+			sum += nwhite.getSize();	
+		}
+		
+		int mean = sum/whiteSets.size();
+//		System.out.println(mean);
+
+
+		//resulting in 15 instad of 22...
+		for(int i =0; i < whiteSets.size(); i++)
+		{
+			System.out.println(whiteSets.get(i).getSize());
+			if(whiteSets.get(i).getSize() < mean)
+				whiteSets.remove(i);
+		}
 	}
 	
 	public ArrayList<Node<Point>> getArrayList()
 	{
 		return container;
+	}
+	
+	public ArrayList<Node<Point>> getWhiteSets()
+	{
+		return whiteSets;
 	}
 
 }

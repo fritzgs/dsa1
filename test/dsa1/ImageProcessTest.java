@@ -54,20 +54,10 @@ class ImageProcessTest {
 		BufferedImage imgresize = imgpro.resize(path);
 		BufferedImage bnw = imgpro.blackAndWhite(imgresize);
 		imgpro.adjacentJoin(bnw);
-		ArrayList<Node<Point>> whiteSets = new ArrayList<>();
-		for(Node<Point> n : imgpro.getArrayList())
-		{
-			if(n.getParent().equals(n) && n.getIsWhite()==true)
-			{
-				whiteSets.add(n);
-			}
-		}
-		
-		for(Node<Point> nwhite : whiteSets)
-		{
-			if(nwhite.getSize() < 100)
-				System.out.println(nwhite.getSize());
-		}
+//		for(Node<Point> n: imgpro.getWhiteSets())
+//			System.out.println(n.getSize());
+//		assertEquals(22, imgpro.getWhiteSets().size());
+
 		
 	}
 	
