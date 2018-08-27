@@ -72,8 +72,8 @@ public class ImageProcessor {
 	public BufferedImage resize(String path) throws IOException
 	{
 		BufferedImage img = ImageIO.read(new File (path));
-		int height = img.getHeight() / 6;
-		int width = img.getWidth() / 6 ;
+		int height = img.getHeight()/6;
+		int width = img.getWidth()/6;
 		
 		Image temp = img.getScaledInstance(width, height, Image.SCALE_DEFAULT);
 		BufferedImage resizedImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -161,7 +161,6 @@ public class ImageProcessor {
 						up.setWasAdded();
 					}
 				}
-				
 			}
 		
 		//Remove outliers 
@@ -171,31 +170,24 @@ public class ImageProcessor {
 			if(n.getParent().equals(n) && n.getIsWhite()==true)
 			{
 				whiteSets.add(n);
-//				System.out.println(n.getSize());
 			}
 		}
 		
-
-				
 		for(Node<Point> nwhite : whiteSets)
 		{
 			sum += nwhite.getSize();	
 		}
 		
+		
 		int mean = sum/whiteSets.size();
-//		System.out.println(mean);
+		
+		whiteSets.removeIf(s -> s.getSize() < mean);
 
-
-		//resulting in 15 instad of 22...
-		for(int i =0; i < whiteSets.size(); i++)
-		{
-			System.out.println(whiteSets.get(i).getSize());
-			if(whiteSets.get(i).getSize() < mean)
-				whiteSets.remove(i);
-		}
+		System.out.println(whiteSets.size());
+		
 	}
 	
-	public ArrayList<Node<Point>> getArrayList()
+	public ArrayList<Node<Point>> getPixelArray()
 	{
 		return container;
 	}
