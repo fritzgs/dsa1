@@ -14,6 +14,11 @@ import javax.imageio.ImageIO;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * 
+ * @author fritz
+ *
+ */
 class ImageProcessTest {
 
 	String currentDir = System.getProperty("user.dir");

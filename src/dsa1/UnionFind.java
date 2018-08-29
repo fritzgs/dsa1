@@ -1,6 +1,10 @@
 package dsa1;
 
-
+/**
+ * 
+ * @author fritz
+ * Used to union disjointed nodes.
+ */
 public class UnionFind {
 
 	/**

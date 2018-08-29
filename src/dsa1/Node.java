@@ -1,5 +1,10 @@
 package dsa1;
-
+/**
+ * 
+ * @author fritz
+ *
+ * @param <T> Generic
+ */
 public class Node<T> {
 	private Node<?> parent;
 	private T pixel;

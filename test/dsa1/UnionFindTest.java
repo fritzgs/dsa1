@@ -6,6 +6,11 @@ import java.awt.Point;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * 
+ * @author fritz
+ *
+ */
 class UnionFindTest {
 	
 	UnionFind uf = new UnionFind();
