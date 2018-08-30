@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import javafx.embed.swing.SwingFXUtils;
+
 /**
  * 
  * @author fritz
@@ -58,7 +60,7 @@ public class ImageProcessor {
 	}
 	
 	//make the image smaller
-	//1) get size of image and * ? to make smaller dimentions
+	//1) get size of image and / ? to make smaller dimentions
 	//2 resize it 
 	/**
 	 * Takes the file path and created a BufferedImage object.
@@ -69,13 +71,12 @@ public class ImageProcessor {
 	 * @return BufferedImage - resized version of the image input
 	 * @throws IOException
 	 */
-	public BufferedImage resize(String path) throws IOException
+	public BufferedImage resize(BufferedImage pic) throws IOException
 	{
-		BufferedImage img = ImageIO.read(new File (path));
-		int height = img.getHeight()/6;
-		int width = img.getWidth()/6;
+		int height = pic.getHeight()/3;
+		int width = pic.getWidth()/3;
 		
-		Image temp = img.getScaledInstance(width, height, Image.SCALE_DEFAULT);
+		Image temp = pic.getScaledInstance(width, height, Image.SCALE_DEFAULT);
 		BufferedImage resizedImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		
 		Graphics2D g2d = resizedImg.createGraphics();
@@ -96,6 +97,7 @@ public class ImageProcessor {
 	 */
 	public BufferedImage blackAndWhite(BufferedImage img)
 	{
+
 		for(int i = 0; i < img.getWidth()-1; i++)
 			for(int j=0; j < img.getHeight()-1; j++)
 			{
@@ -118,6 +120,7 @@ public class ImageProcessor {
 				}
 			}
 		
+
 		return img;
 	}
 	

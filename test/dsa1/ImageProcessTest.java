@@ -33,7 +33,7 @@ class ImageProcessTest {
 		BufferedImage img = ImageIO.read(new File(path));
 		int oldHeight = img.getHeight();
 	
-		BufferedImage imgresize = imgpro.resize(path);
+		BufferedImage imgresize = imgpro.resize(img);
 		
 		
 		int newHeight = imgresize.getHeight();
@@ -45,7 +45,8 @@ class ImageProcessTest {
 	@Test
 	void testBlackAndWhite() throws IOException
 	{
-		BufferedImage imgresize = imgpro.resize(path);
+		BufferedImage img = ImageIO.read(new File(path));
+		BufferedImage imgresize = imgpro.resize(img);
 		imgpro.blackAndWhite(imgresize);
 		Color origin = new Color(imgresize.getRGB(0, 0));
 		if(origin.getBlue()==0 && origin.getGreen()==0 && origin.getRed() ==0)
@@ -56,7 +57,8 @@ class ImageProcessTest {
 	@Test
 	void testAdjacentJoin() throws IOException
 	{
-		BufferedImage imgresize = imgpro.resize(path);
+		BufferedImage img = ImageIO.read(new File(path));
+		BufferedImage imgresize = imgpro.resize(img);
 		BufferedImage bnw = imgpro.blackAndWhite(imgresize);
 		imgpro.adjacentJoin(bnw);
 //		for(Node<Point> n: imgpro.getWhiteSets())
