@@ -11,6 +11,7 @@ public class Node<T> {
 	private int size;
 	private boolean wasAdded;
 	private boolean isWhite;
+	private int sheep;
 	
 	/**
 	 * Constructor of the node
@@ -23,6 +24,17 @@ public class Node<T> {
 		this.size = 1;
 		this.wasAdded = false;
 		this.isWhite = false;
+		this.sheep = 1;
+	}
+	
+	public int getSheepCount()
+	{
+		return sheep;
+	}
+	
+	public void setSheep(int i)
+	{
+		this.sheep =i;
 	}
 	
 	/**

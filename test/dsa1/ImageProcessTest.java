@@ -3,6 +3,7 @@ package dsa1;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +18,8 @@ import org.junit.jupiter.api.Test;
 class ImageProcessTest {
 
 	String currentDir = System.getProperty("user.dir");
+	
+//	String path = currentDir+"/index.jpeg";
 	String path = currentDir+"/cricketsheep_shop.jpg";
 
 	
@@ -58,7 +61,8 @@ class ImageProcessTest {
 		imgpro.adjacentJoin(bnw);
 //		for(Node<Point> n: imgpro.getWhiteSets())
 //			System.out.println(n.getSize());
-//		assertEquals(22, imgpro.getWhiteSets().size());
+		
+		assertEquals(22, imgpro.getWhiteSets().size());
 
 		
 	}

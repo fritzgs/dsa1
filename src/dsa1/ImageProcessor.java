@@ -20,7 +20,7 @@ public class ImageProcessor {
 	private UnionFind uf = new UnionFind();
 	private ArrayList<Node<Point>> container = new ArrayList<>();
 	private ArrayList<Node<Point>> whiteSets = new ArrayList<>();
-
+	private int sheepTotal;
 	
 	/**
 	 * Creates a new node of pixel and adds it to the arraylist.
@@ -68,8 +68,8 @@ public class ImageProcessor {
 	 */
 	public BufferedImage resize(BufferedImage pic) throws IOException
 	{
-		int height = pic.getHeight()/3;
-		int width = pic.getWidth()/3;
+		int height = pic.getHeight()/1;
+		int width = pic.getWidth()/1;
 		
 		Image temp = pic.getScaledInstance(width, height, Image.SCALE_DEFAULT);
 		BufferedImage resizedImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -181,8 +181,25 @@ public class ImageProcessor {
 		
 		whiteSets.removeIf(s -> s.getSize() < mean);
 
+		
+		//trying out -- setting the count of cluster to 1 initially. the size of the white set / estiamte of 1 sheep will be the new amount.
+		int sizeTest = mean * 3;
+		sheepTotal = 0;
+		for(Node<Point> w : whiteSets)
+		{
+			int sheeps = Math.round(w.getSize() / sizeTest);
+			w.setSheep(sheeps);
+			sheepTotal += w.getSheepCount();
+		}
+		//------
+		
 		System.out.println(whiteSets.size());
 		
+	}
+	
+	public int getSheepTotal()
+	{
+		return sheepTotal;
 	}
 	
 	public ArrayList<Node<Point>> getPixelArray()

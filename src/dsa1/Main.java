@@ -10,12 +10,15 @@ import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -23,7 +26,7 @@ import javafx.stage.Stage;
 public class Main extends Application implements EventHandler<ActionEvent>{
 	
 	private Scene firstScene, secondScene;
-	private Button upload, back, bnw;
+	private Button upload, back, bnw, estimateTotal;
 	private FileChooser fileChooser;
 	private BorderPane borderpane;
 	private ImageProcessor imgpro;
@@ -47,7 +50,8 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	private Scene uploadScene()
 	{
 		//Scene title
-		Label label = new Label("Upload an arial image of sheep");
+		Label label = new Label("Upload an Image");
+		Label bot = new Label("DSA1- Fritz Santos");
 		
 		//upload button
 		upload = new Button("Upload");
@@ -56,6 +60,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		//layout
 		borderpane = new BorderPane();
 		borderpane.setTop(label);
+		borderpane.setBottom(bot);
 		borderpane.setCenter(upload);
 		
 		firstScene = new Scene(borderpane, 200, 200);
@@ -67,24 +72,39 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	 * @return main scene.
 	 * @throws IOException
 	 */
-	private Scene imageScene() throws IOException
+	private Scene imageScene(String s) throws IOException
 	{
 		ImageView imageView = new ImageView();
 		Image img = SwingFXUtils.toFXImage(imgpro.resize(buffImg), null);
-		imageView.setImage(img);
-
-		borderpane = new BorderPane();
+		imageView.setImage(img);		
 		
-		Label label = new Label("Sheep Recognition");
+		Label label = new Label("Sheep Recognition - Fritz Gerald Santos");
 		bnw = new Button("View Black and White");
 		back = new Button("Go Back");
+		estimateTotal = new Button("Total");
 		
+		estimateTotal.setOnAction(this);
 		back.setOnAction(this);
 		bnw.setOnAction(this);
 		
-		borderpane.setBottom(bnw);
-		borderpane.setTop(label);
-		borderpane.setTop(back);
+		borderpane = new BorderPane();
+
+		HBox topLeft = new HBox(back);
+		HBox topRight = new HBox(label);
+		topRight.setAlignment(Pos.CENTER_RIGHT);
+		HBox.setHgrow(topRight, Priority.ALWAYS);
+		
+		HBox right = new HBox(new Label("Amount of sheeps:  "),new Label(s), new Label("  "), estimateTotal);
+		right.setAlignment(Pos.CENTER_RIGHT);
+		HBox.setHgrow(right, Priority.ALWAYS);
+		
+		HBox left = new HBox(bnw);
+		
+		HBox top = new HBox(topLeft, topRight);
+		HBox bottom = new HBox(left, right);
+		
+		borderpane.setBottom(bottom);
+		borderpane.setTop(top);
 		borderpane.setCenter(imageView);
 		
 		
@@ -105,7 +125,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		{
 			try {
 				chooseImage(); //user picks an image file
-				window.setScene(imageScene()); //use main scene
+				window.setScene(imageScene("?")); //use main scene
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -129,7 +149,20 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		//go back to the upload scene.
 		else if(event.getSource() == back)
 		{
+			buffImg = null;
 			window.setScene(uploadScene());
+		}
+		else if(event.getSource() == estimateTotal)
+		{
+			try {
+				BufferedImage resized = imgpro.resize(buffImg);
+				imgpro.adjacentJoin(imgpro.blackAndWhite(resized));
+				String total = String.valueOf(imgpro.getSheepTotal());
+				window.setScene(imageScene(total));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
 		}
 		
 	}
