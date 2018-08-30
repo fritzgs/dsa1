@@ -3,15 +3,10 @@ package dsa1;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
-
 import org.junit.jupiter.api.Test;
 
 /**

@@ -16,7 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -27,10 +26,8 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	private Button upload, back, bnw;
 	private FileChooser fileChooser;
 	private BorderPane borderpane;
-	private HBox hbox;
 	private ImageProcessor imgpro;
 	private File file;
-	private String filePath;
 	private Stage window;
 	private BufferedImage buffImg;
 	
@@ -43,6 +40,10 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		window.show();
 	}
 	
+	/**
+	 * The stage/window for uploading.
+	 * @return the stage for picture selection.
+	 */
 	private Scene uploadScene()
 	{
 		//Scene title
@@ -52,6 +53,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		upload = new Button("Upload");
 		upload.setOnAction(this);
 		
+		//layout
 		borderpane = new BorderPane();
 		borderpane.setTop(label);
 		borderpane.setCenter(upload);
@@ -60,6 +62,11 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		return firstScene;
 	}
 	
+	/**
+	 * The main scene where the image will be displayed and where the option to view black and white will be.
+	 * @return main scene.
+	 * @throws IOException
+	 */
 	private Scene imageScene() throws IOException
 	{
 		ImageView imageView = new ImageView();
@@ -85,6 +92,9 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		return secondScene;
 	}
 	
+	/**
+	 * Handles all the button clicks.
+	 */
 	@Override
 	public void handle(ActionEvent event)
 	{
@@ -94,14 +104,15 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		if(event.getSource() == upload)
 		{
 			try {
-				chooseImage();
-				window.setScene(imageScene());
+				chooseImage(); //user picks an image file
+				window.setScene(imageScene()); //use main scene
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		else if(event.getSource() == bnw)
 		{
+			//uses a new window to view the black and white image.
 			Stage bnwStage = new Stage();
 			borderpane = new BorderPane();
 			ImageView imageView = new ImageView();
@@ -115,6 +126,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 			bnwStage.show();
 		}
 		
+		//go back to the upload scene.
 		else if(event.getSource() == back)
 		{
 			window.setScene(uploadScene());
@@ -122,6 +134,11 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		
 	}
 	
+	/**
+	 * user picks an image using file chooser. It will only display jpeg and png files
+	 * @throws IOException
+	 */
+	@SuppressWarnings("unused")
 	private void chooseImage() throws IOException
 	{
 		fileChooser = new FileChooser();
